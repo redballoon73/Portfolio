@@ -2,7 +2,7 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 //***중요 꼭 바꿔야 됨***전체 질문 개수
-const endPoint = 6;
+const endPoint = 26;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
@@ -41,29 +41,41 @@ function GroupingResult(){
     //PHQselect 리스트 중에서 최대 값과 그 값의 인덱스 찾기
     function findMax(arr) {
       let max = arr[0];
-      let maxIndex = 0;
-      
+      let maxIndices = [0];
+    
       for (let i = 1; i < arr.length; i++) {
         if (arr[i] > max) {
           max = arr[i];
-          maxIndex = i;
+          maxIndices = [i];
+        } else if (arr[i] === max) {
+          maxIndices.push(i);
         }
       }
-      
-      return { max, maxIndex };
+    
+      // 최댓값을 가진 인덱스 중에서 랜덤으로 선택
+      const randomIndex = Math.floor(Math.random() * maxIndices.length);
+      const selectedMaxIndex = maxIndices[randomIndex];
+    
+      return { max, selectedMaxIndex };
     }
 
     const numbersPHQ = selectedPHQ;
     const resultingPHQ = findMax(numbersPHQ);
-    //우울의 가장 심한 증상의 인덱스(select 리스트에서의 인덱스) 구하기
-    const phqIndex = qnaList.findIndex(item => item === PHQ[resultingPHQ.maxIndex]);
-    Depression = qnaList[phqIndex].a[resultingPHQ.max].type[0]
+    // 랜덤으로 선택된 최댓값을 가진 인덱스
+    const selectedPHQIndex = resultingPHQ.selectedMaxIndex;
+    // qnaList 배열에서 해당 질문 인덱스 찾기
+    const phqIndex = qnaList.findIndex((item) => item === PHQ[selectedPHQIndex]);
+    // 대응하는 유형 찾기
+    Depression = qnaList[phqIndex].a[resultingPHQ.max].type[0];
 
     const numbersGAD = selectedGAD;
     const resultingGAD = findMax(numbersGAD);
-    //불안의 가장 심한 증상의 인덱스(select 리스트에서의 인덱스) 구하기
-    const gadIndex = qnaList.findIndex(item => item === GAD[resultingGAD.maxIndex]);
-    Anxiety = qnaList[gadIndex].a[resultingGAD.max].type[0]
+    // 랜덤으로 선택된 최댓값을 가진 인덱스
+    const selectedGADIndex = resultingGAD.selectedMaxIndex;
+    // qnaList 배열에서 해당 질문 인덱스 찾기
+    const gadIndex = qnaList.findIndex((item) => item === GAD[selectedGADIndex]);
+    // 대응하는 유형 찾기
+    Anxiety = qnaList[gadIndex].a[resultingGAD.max].type[0];
     
 
   console.log("우울 증상:", Depression);
