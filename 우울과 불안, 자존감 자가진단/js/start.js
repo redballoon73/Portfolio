@@ -1,14 +1,15 @@
+
 const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
+const result2 = document.querySelector("#result2");
 //***중요 꼭 바꿔야 됨***전체 질문 개수
-const endPoint = 26;
+const endPoint = 6;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
 const selectedGAD = [];
 const selectedRSES = [];
-
 
 //우울과 불안 증상중 가장 심한 증상 표현, 그런데, 우울과 불안을 따로 대상화해야 됨.
 //이 블럭의 목적 : 배열중 최대값 찾아서 인덱스 표현하는 것.
@@ -270,4 +271,78 @@ function begin(){
     let qIdx = 0;
     goNext(qIdx);
   }, 450)
+}
+
+
+//----------------------2페이지---------------------------------//
+
+function goResult2(){
+  result.style.WebkitAnimation = "fadeOut 1s";
+  result.style.animation = "fadeOut 1s";
+  setTimeout(() => {
+    result2.style.WebkitAnimation = "fadeIn 1s";
+    result2.style.animation = "fadeIn 1s";
+    setTimeout(() => {
+      result.style.display = "none";
+      result2.style.display = "block"
+    },450)})
+
+    drawResultGraph();
+    setResult2();
+}
+
+
+// 결과 그래프를 그리는 함수
+function drawResultGraph() {
+
+  // 그래프 데이터
+  var data = {
+    labels: ['우울 점수', '불안 점수', '자존감 점수'],
+    datasets: [{
+      backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)'],
+      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+      borderWidth: 1,
+      data: [window.conclusionPHQ, window.conclusionGAD, window.conclusionRSES],
+    }]
+  };
+
+  // 그래프 옵션
+  var options = {
+    scales: {
+      x: {
+        beginAtZero: true
+        },
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  // 캔버스에 그래프 그리기
+  var ctx = document.getElementById('resultChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+  });
+
+}
+
+function setResult2(){
+  const Explain = document.querySelector('.explain');
+  //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
+  Explain.innerHTML = `
+  <p>당신의 우울 상태는 ${infoListExplain[0][window.Classified[0]]}입니다.</p>
+  <p>당신의 불안 상태는 ${infoListExplain[1][window.Classified[1]]}입니다.</p>
+  <p>당신의 자존감 상태는 ${infoListExplain[2][window.Classified[2]]}입니다.</p>
+  
+  
+  <p>알고 계셨나요?</p>
+
+  <p>우울증과 불안장애는 누구나 올 수 있습니다. 우울증은 마음의 감기와 같습니다.</p>
+  <p>우울증이 오는 이유는 멘탈이 약해서가 아니라, 뇌에서 우울과 관련된 호르몬이 많이 나와서입니다.</p>
+  <p>우울증은 약물 치료를 통해서 80% 이상이 치유가 됩니다. 하지만, 스스로 우울증을 해결하는 것은 불가능한 경우도 있고, 더 심해지는 경우가 많습니다.</p>
+  <p>우울증 약이 부작용이 있거나 중독성이 있다는, 정신과에 내원하면 진료 기록이 남는다는 오해가 있는데, 모두 거짓입니다.</p>
+  `;
+
 }

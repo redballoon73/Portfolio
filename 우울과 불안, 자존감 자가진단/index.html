@@ -28,6 +28,8 @@
   <link rel="stylesheet" href="./css/qna.css">
   <link rel="stylesheet" href="./css/animation.css">
   <link rel="stylesheet" href="./css/result.css">
+  <link rel="stylesheet" href="./css/result2.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -67,9 +69,21 @@
 
       </div>
       <button type="button" class="kakao mt-3 py-2 px-3">공유하기</button>
+      <button type="button" class="btn btn-danger mt-3" onclick="js:goResult2()">다음페이지</button>
+    </section>
+    <section id="result2">
+      <div class="score">
+        <h2>결과 그래프</h2>
+        <!-- 그래프를 그릴 캔버스 -->
+        <canvas id="resultChart" width="100" height="50"></canvas>
+      </div>
+      <div class="explain">
+
+      </div>
     </section>
     <script src="./js/data.js" charset="utf-8"></script>
     <script src="./js/start.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </div>
 </body>
 
