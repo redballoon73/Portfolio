@@ -4,7 +4,7 @@ const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const result2 = document.querySelector("#result2");
 //***중요 꼭 바꿔야 됨***전체 질문 개수
-const endPoint = 26;
+const endPoint = 6;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
@@ -309,6 +309,9 @@ function drawResultGraph() {
   // 그래프 옵션
   var options = {
     responsive: false,
+    legend : {
+      display : false,
+    },
     scales: {
       x: {
         beginAtZero: true
@@ -329,6 +332,13 @@ function drawResultGraph() {
 
 }
 
+//랜덤 숫자 형성
+function RanNum(fin_num,start_num){
+  return Math.floor(Math.random()*(fin_num-start_num)+1)
+}
+
+
+//결과 두번째 페이지 값 입력
 function setResult2(){
   const Explain = document.querySelector('.explain');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
@@ -337,12 +347,18 @@ function setResult2(){
   <p>당신의 불안 상태는 ${infoListExplain[1][window.Classified[1]]}입니다.</p>
   <p>당신의 자존감 상태는 ${infoListExplain[2][window.Classified[2]]}입니다.</p>
   <br>
-  <p>알고 계셨나요?</p>
+  <h2>${maxim[0][RanNum(maxim[0].length-1,0)]}</h2>
+  <h2>${maxim[1][RanNum(maxim[1].length-1,0)]}</h2>
   <br>
+  <br>
+  <h1>알고 계셨나요?</h1>
+  <br>
+  <p>대한민국의 자살율이 OECD 1위인 이유는 우울증을 마치 개인의 문제라고 생각하는 사회적 분위기 때문입니다.</p>
+  <p>한국에서는 통계적으로 매일 32명의 사람이 자살로 죽습니다. 여러분 주변의 사람에게 "우울은 너의 문제가 아니야"라고 말해주세요.</p>
   <p>우울과 불안은 누구나 느낄 수 있습니다. 우울증은 마음의 감기와 같습니다.</p>
   <p>우울증이 오는 이유는 멘탈이 약해서가 아니라, 뇌에서 우울과 관련된 호르몬이 많이 나와서입니다.</p>
   <p>우울증은 약물 치료를 통해서 80% 이상이 치유가 됩니다. 하지만, 스스로 우울증을 해결하는 것은 불가능한 경우도 있고, 더 심해지는 경우가 많습니다.</p>
   <p>우울증 약이 부작용이 있거나 중독성이 있다는, 정신과에 내원하면 진료 기록이 남는다는 오해가 있는데, 모두 거짓입니다.</p>
   `;
-
 }
+
