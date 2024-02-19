@@ -278,6 +278,7 @@ function drawResultGraph() {
 
   // 그래프 옵션
   var options = {
+    indexAxis: 'y',
     responsive: false,
     legend : {
       display : false,
