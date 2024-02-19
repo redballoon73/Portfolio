@@ -4,39 +4,32 @@ const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const result2 = document.querySelector("#result2");
 //***중요 꼭 바꿔야 됨***전체 질문 개수
-const endPoint = 6;
+const endPoint = 19;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
 const selectedGAD = [];
 const selectedRSES = [];
+// 그룹화된 결과를 저장할 변수
+let Depression = '';
 
 //우울과 불안 증상중 가장 심한 증상 표현, 그런데, 우울과 불안을 따로 대상화해야 됨.
 //이 블럭의 목적 : 배열중 최대값 찾아서 인덱스 표현하는 것.
 function GroupingResult(){
   //select 배열에서 PHQ, GAD, RSES의 응답을 따로 모아주기
 
-  for (let i = 0; i < qnaList.length; i++) {
-    const questionType = i % 3; // 인덱스를 기반으로 질문 유형 결정 (PHQ에는 0, GAD에는 1, RSES에는 2)
-    const selectedAnswer = select[i];
+    // select 배열을 반복하면서 type에 따라 분류
+  for (let i = 0; i < select.length; i++) {
+    const response = select[i];
 
-    switch (questionType) {
-      case 0:
-        selectedPHQ.push(selectedAnswer);
-        break;
-      case 1:
-        selectedGAD.push(selectedAnswer);
-        break;
-      case 2:
-        selectedRSES.push(selectedAnswer);
-        break;
-      default:
-        // 예기치 않은 경우 처리
-        break;
+    if (qnaList[i].type === 'PHQ') {
+      selectedPHQ.push(response);
+    } else if (qnaList[i].type === 'RSES') {
+      selectedRSES.push(response);
     }
   }
+
   console.log('selectedPHQ:', selectedPHQ);
-  console.log('selectedGAD:', selectedGAD);
   console.log('selectedRSES:', selectedRSES);
 
     //PHQselect 리스트 중에서 최대 값과 그 값의 인덱스 찾기
@@ -65,26 +58,14 @@ function GroupingResult(){
     // 랜덤으로 선택된 최댓값을 가진 인덱스
     const selectedPHQIndex = resultingPHQ.selectedMaxIndex;
     // qnaList 배열에서 해당 질문 인덱스 찾기
-    const phqIndex = qnaList.findIndex((item) => item === PHQ[selectedPHQIndex]);
-    // 대응하는 유형 찾기
-    Depression = qnaList[phqIndex].a[resultingPHQ.max].type[0];
-
-    const numbersGAD = selectedGAD;
-    const resultingGAD = findMax(numbersGAD);
-    // 랜덤으로 선택된 최댓값을 가진 인덱스
-    const selectedGADIndex = resultingGAD.selectedMaxIndex;
-    // qnaList 배열에서 해당 질문 인덱스 찾기
-    const gadIndex = qnaList.findIndex((item) => item === GAD[selectedGADIndex]);
-    // 대응하는 유형 찾기
-    Anxiety = qnaList[gadIndex].a[resultingGAD.max].type[0];
-    
+    const phqIndex = qnaList.findIndex((item) => item.q === PHQ[selectedPHQIndex].q);
+    Depression = PHQ[selectedPHQIndex].a[resultingPHQ.max].type[0];  
 
   console.log("우울 증상:", Depression);
-  console.log("불안 증상:", Anxiety);
   }
 
 
-//PHQ, GAD, RSES 각각 더한 값 표시해주는 함수
+//PHQ, RSES 각각 더한 값 표시해주는 함수
 function calResult(){
     // 배열의 각 항목을 더하는 함수
     // 배열의 각 항목을 숫자로 바꾸고 숫자가 아닌 항목은 제거하여 더하는 함수
@@ -101,17 +82,15 @@ function calResult(){
     
   // 함수를 사용하여 배열의 합을 계산
   conclusionPHQ = sumNumericArray(selectedPHQ);
-  conclusionGAD = sumNumericArray(selectedGAD);
   conclusionRSES = sumNumericArray(selectedRSES);
 
   // 결과 출력
   console.log('PHQ의 합:', conclusionPHQ);
-  console.log('GAD의 합:', conclusionGAD);
   console.log('RSES의 합:', conclusionRSES);
 }
 
-//PHQ, GAD, RSES를 점수 별로 분류
-function classifyData(conclusionPHQ, conclusionGAD, conclusionRSES) {
+//PHQ, RSES를 점수 별로 분류
+function classifyData(conclusionPHQ, conclusionRSES) {
   // Conclusion PHQ classification
   // 0 : 우울 아님, 1 : 가벼운 우울, 2 : 중간정도의 우울, 3 : 심한 우울
   let phqCategory;
@@ -123,15 +102,6 @@ function classifyData(conclusionPHQ, conclusionGAD, conclusionRSES) {
       phqCategory = 2;
   } else if (20 <= conclusionPHQ && conclusionPHQ <= 27) {
       phqCategory = 3;
-  }
-
-  // Conclusion GAD classification
-  // 0 : 불안 아님, 1 : 불안 시사됨
-  let gadCategory;
-  if (0 <= conclusionGAD && conclusionGAD <= 4) {
-      gadCategory = 0;
-  } else if (5 <= conclusionGAD) {
-      gadCategory = 1;
   }
 
   // Conclusion RSES classification
@@ -150,7 +120,7 @@ function classifyData(conclusionPHQ, conclusionGAD, conclusionRSES) {
   }
 
   // Create the Classified array
-  Classified = [phqCategory, gadCategory, rsesCategory];
+  Classified = [phqCategory, rsesCategory];
   console.log("분류 list:", Classified)
   return Classified;
 }
@@ -161,7 +131,7 @@ function setResult(){
   let point = 1 //여기 1 부분에 이미지를 결정할 인자를 넣어야 함. calResult()
   const resultName = document.querySelector('.resultname');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
-  resultName.innerHTML = infoListDepression[Depression] + ' ' + infoListAnxiety[Anxiety];
+  resultName.innerHTML = infoListDepression[Depression] + ' ' + infoListSelfesteem[Classified[1]];
 
   //이미지 삽입하기
   var resultImg = document.createElement('img');
@@ -177,9 +147,8 @@ function setResult(){
 
   //resultDesc.innerHTML = infoList[point].desc; //이 코드는 infoList에 있는 설명글 쓸 때 사용
   resultDesc.innerHTML = `
-  <p>당신의 우울 상태는 ${infoListExplain[0][Classified[0]]}.</p>
-  <p>당신의 불안 상태는 ${infoListExplain[1][Classified[1]]}.</p>
-  <p>당신의 자존감 상태는 ${infoListExplain[2][Classified[2]]}.</p>
+  <p>${Tip[0][Classified[0]]}</p>
+  <p>${Tip[1][Classified[1]]}</p>
   `;
 }
 
@@ -200,7 +169,7 @@ function goResult(){
     //여기서 결과값을 표현해야됨
     GroupingResult();
     calResult();
-    classifyData(conclusionPHQ, conclusionGAD, conclusionRSES);
+    classifyData(conclusionPHQ, conclusionRSES);
 }
 
 //이 블럭의 목표 : "선택지를 버튼으로 만들고, 눌렀을 때 사라지도록"
@@ -249,13 +218,14 @@ function goNext(qIdx){
   }
 
   var q = document.querySelector('.qBox');
-  q.innerHTML = qnaList[qIdx].q;
-  for(let i in qnaList[qIdx].a){
+  q.innerHTML = qnaList[qIdx].q.q;
+  for(let i in qnaList[qIdx].q.a){
     //문제 넘길때마다 다음문제가 나와야 하므로 변수 qIdx(문제 번호)와 i를 추가함
-    addAnswer(qnaList[qIdx].a[i].answer, qIdx, i);
+    addAnswer(qnaList[qIdx].q.a[i].answer, qIdx, i);
   }
   var status = document.querySelector('.statusBar');
   status.style.width = (100/endPoint) * (qIdx+1) + '%';
+  
 }
 
 function begin(){
@@ -297,12 +267,12 @@ function drawResultGraph() {
 
   // 그래프 데이터
   var data = {
-    labels: ['우울 점수', '불안 점수', '자존감 점수'],
+    labels: ['우울 점수', '자존감 점수'],
     datasets: [{
-      backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)'],
-      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+      backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(255, 206, 86, 0.7)'],
+      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
       borderWidth: 1,
-      data: [window.conclusionPHQ, window.conclusionGAD, window.conclusionRSES],
+      data: [window.conclusionPHQ, window.conclusionRSES],
     }]
   };
 
@@ -343,9 +313,8 @@ function setResult2(){
   const Explain = document.querySelector('.explain');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
   Explain.innerHTML = `
-  <p>당신의 우울 상태는 ${infoListExplain[0][window.Classified[0]]}입니다.</p>
-  <p>당신의 불안 상태는 ${infoListExplain[1][window.Classified[1]]}입니다.</p>
-  <p>당신의 자존감 상태는 ${infoListExplain[2][window.Classified[2]]}입니다.</p>
+  <p>당신의 우울 상태는 ${infoListExplain[0][window.Classified[0]]}</p>
+  <p>당신의 자존감 상태는 ${infoListExplain[1][window.Classified[1]]}</p>
   <br>
   <h2>${maxim[0][RanNum(maxim[0].length-1,0)]}</h2>
   <h2>${maxim[1][RanNum(maxim[1].length-1,0)]}</h2>
@@ -354,7 +323,7 @@ function setResult2(){
   <h1>알고 계셨나요?</h1>
   <br>
   <p>대한민국의 자살율이 OECD 1위인 이유는 우울증을 마치 개인의 문제라고 생각하는 사회적 분위기 때문입니다.</p>
-  <p>한국에서는 통계적으로 매일 32명의 사람이 자살로 죽습니다. 여러분 주변의 사람에게 "우울은 너의 문제가 아니야"라고 말해주세요.</p>
+  <p>한국에서는 통계적으로 매일 32명의 사람이 자살로 죽습니다. 여러분 주변의 사람에게 "우울은 너의 잘못이 아니야"라고 말해주세요.</p>
   <p>우울과 불안은 누구나 느낄 수 있습니다. 우울증은 마음의 감기와 같습니다.</p>
   <p>우울증이 오는 이유는 멘탈이 약해서가 아니라, 뇌에서 우울과 관련된 호르몬이 많이 나와서입니다.</p>
   <p>우울증은 약물 치료를 통해서 80% 이상이 치유가 됩니다. 하지만, 스스로 우울증을 해결하는 것은 불가능한 경우도 있고, 더 심해지는 경우가 많습니다.</p>
