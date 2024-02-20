@@ -208,18 +208,21 @@ const healing = [
 
 //qnalist 신형
 const qnaList = [];
+const maxLength = Math.max(PHQ.length, RSES.length);
+for (let i = 0; i < maxLength; i++) {
+    if (i < PHQ.length) {
+        qnaList.push({
+            q: PHQ[i],
+            type: 'PHQ'
+        });
+    }
 
-for (let i = 0; i < PHQ.length; i++) {
-    qnaList.push({
-        q: PHQ[i],
-        type: 'PHQ'
-    })
-}
-for (let i = 0; i < RSES.length; i++) {
-    qnaList.push({
-        q: RSES[i],
-        type: 'RSES'
-    })
+    if (i < RSES.length) {
+        qnaList.push({
+            q: RSES[i],
+            type: 'RSES'
+        });
+    }
 }
 
 const Tip = [
@@ -310,3 +313,4 @@ const maxim = [
     "그러므로 '무엇을 먹을까?' '무엇을 마실까?' 혹은 '무엇을 입을까'하며 걱정하지 말라. -성경"
   ]
 ]
+
