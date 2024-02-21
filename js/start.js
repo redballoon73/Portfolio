@@ -3,8 +3,9 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const result2 = document.querySelector("#result2");
+const result3 = document.querySelector("#result3");
 //***중요 꼭 바꿔야 됨***전체 질문 개수
-const endPoint = 19;
+const endPoint = 6;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
@@ -128,7 +129,7 @@ function classifyData(conclusionPHQ, conclusionRSES) {
 //결과 창에 이미지와 설명글 넣기
 function setResult(){
 
-  let point = 1 //여기 1 부분에 이미지를 결정할 인자를 넣어야 함. calResult()
+  let point = Depression //여기 1 부분에 이미지를 결정할 인자를 넣어야 함. calResult()
   const resultName = document.querySelector('.resultname');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
   resultName.innerHTML = infoListDepression[Depression] + ' ' + infoListSelfesteem[Classified[1]];
@@ -136,7 +137,7 @@ function setResult(){
   //이미지 삽입하기
   var resultImg = document.createElement('img');
   const imgDiv = document.querySelector('#resultImg');
-  var imgURL = 'img/image-' + point + '.png'; 
+  var imgURL = 'img/image-' + point + '.jfif'; 
   resultImg.src = imgURL;
   resultImg.alt = point;
   resultImg.classList.add('img-fluid');
@@ -256,12 +257,49 @@ function goResult2(){
       result.style.display = "none";
       result2.style.display = "block"
     },450)})
-
-    drawResultGraph();
+    drawResultTable();
     setResult2();
 }
 
+//우울과 자존감 표로 나타내주기
+function drawResultTable(){
+  // 첫 번째 표 데이터 배열 정의
+  const tableData1 = [
+    ['우울점수','0-4점','5-9점','10-19점','20-27점'],
+    ['분류','우울아님','가벼운 우울', '중간정도의 우울', '심한 우울']
+  ];
 
+  // 두 번째 표 데이터 배열 정의
+  const tableData2 = [
+    ['자존감점수', '1-18점', '19-24점','25-38점','39-44점','45점 이상'],
+    ['분류', '매우 낮음', '낮음', '보통', '높음', '매우 높음']
+  ];
+
+  // 표 생성 함수
+  function createTable(Tabledata, containerId) {
+    const tableContainer = document.createElement('div');
+    tableContainer.className = 'table-container';
+
+    const table = document.createElement('table');
+
+    // 내용 추가
+    for (const rowData of Tabledata) {
+      const row = table.insertRow();
+      for (const cellData of rowData) {
+        const cell = row.insertCell();
+        cell.textContent = cellData;
+      }
+    }
+
+    tableContainer.appendChild(table);
+    document.body.querySelector('.table-container').appendChild(tableContainer);
+  }
+
+  // 두 개의 표 생성 함수 호출
+  createTable(tableData1, 'table-container-1');
+  createTable(tableData2, 'table-container-2');
+}
+/*
 // 결과 그래프를 그리는 함수
 function drawResultGraph() {
 
@@ -302,7 +340,7 @@ function drawResultGraph() {
   });
 
 }
-
+*/
 //랜덤 숫자 형성
 function RanNum(fin_num,start_num){
   return Math.floor(Math.random()*(fin_num-start_num)+1)
@@ -314,21 +352,42 @@ function setResult2(){
   const Explain = document.querySelector('.explain');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
   Explain.innerHTML = `
-  <p>당신의 우울 상태는 ${infoListExplain[0][window.Classified[0]]}</p>
-  <p>당신의 자존감 상태는 ${infoListExplain[1][window.Classified[1]]}</p>
+  <p>당신의 우울 점수는 ${conclusionPHQ}점입니다.<br>${infoListExplain[0][window.Classified[0]]}</p>
+  <p>당신의 자존감 점수는 ${conclusionRSES+10}점입니다.<br>${infoListExplain[1][window.Classified[1]]}</p>
   <br>
   <h2>${maxim[0][RanNum(maxim[0].length-1,0)]}</h2>
   <h2>${maxim[1][RanNum(maxim[1].length-1,0)]}</h2>
   <br>
-  <br>
-  <h1>알고 계셨나요?</h1>
-  <br>
-  <p>대한민국의 자살율이 OECD 1위인 이유는 우울증을 마치 개인의 문제라고 생각하는 사회적 분위기 때문입니다.</p>
-  <p>한국에서는 통계적으로 매일 32명의 사람이 자살로 죽습니다. 여러분 주변의 사람에게 "우울은 너의 잘못이 아니야"라고 말해주세요.</p>
-  <p>우울과 불안은 누구나 느낄 수 있습니다. 우울증은 마음의 감기와 같습니다.</p>
-  <p>우울증이 오는 이유는 멘탈이 약해서가 아니라, 뇌에서 우울과 관련된 호르몬이 많이 나와서입니다.</p>
-  <p>우울증은 약물 치료를 통해서 80% 이상이 치유가 됩니다. 하지만, 스스로 우울증을 해결하는 것은 불가능한 경우도 있고, 더 심해지는 경우가 많습니다.</p>
-  <p>우울증 약이 부작용이 있거나 중독성이 있다는, 정신과에 내원하면 진료 기록이 남는다는 오해가 있는데, 모두 거짓입니다.</p>
   `;
 }
 
+//-----------------------3페이지----------------------------//
+function goResult3(){
+  result2.style.WebkitAnimation = "fadeOut 1s";
+  result2.style.animation = "fadeOut 1s";
+  setTimeout(() => {
+    result3.style.WebkitAnimation = "fadeIn 1s";
+    result3.style.animation = "fadeIn 1s";
+    setTimeout(() => {
+      result2.style.display = "none";
+      result3.style.display = "block"
+    },450)})
+    setResult3();
+}
+
+//결과 세번째 페이지 값 입력
+function setResult3(){
+  const Explain2 = document.querySelector('.explain2');
+  //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
+  Explain2.innerHTML = `
+  <h1>알고 계셨나요?</h1>
+  <br>
+  <p>대한민국의 자살율이 OECD 1위인 이유는 우울증을 마치 개인의 문제라고 생각하는 사회적 분위기 때문입니다.</p>
+  <p>한국에서는 통계적으로 매일 32명의 사람이 자살로 죽습니다.<br>여러분 주변의 사람에게 "우울은 너의 잘못이 아니야"라고 말해주세요.</p>
+  <p>우울과 불안은 누구나 느낄 수 있습니다.<br>우울증은 마음의 감기와 같습니다.</p>
+  <p>우울증이 오는 이유는 멘탈이 약해서가 아니라,<br>뇌에서 우울과 관련된 호르몬이 많이 나와서입니다.</p>
+  <p>우울증은 약물 치료를 통해서 80% 이상이 치유가 됩니다.<br>하지만, 스스로 우울증을 해결하는 것은 불가능한 경우도 있고, 더 심해지는 경우가 많습니다.</p>
+  <p>우울증 약이 부작용이 있거나 중독성이 있다는,<br>정신과에 내원하면 진료 기록이 남는다는 오해가 있는데,<br>모두 거짓입니다.</p>
+  <p>아래 링크들을 통해서 온라인 심리상담을 받아볼 수 있어요!<p>
+  `;
+}
