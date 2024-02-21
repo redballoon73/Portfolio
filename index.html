@@ -42,7 +42,7 @@
         <img src="./img/main.png" alt="mainImage" class="img-fluid">
       </div>
       <p>
-        당신처럼 가치있는 사람도, <br>
+        당신처럼 소중한 사람도, <br>
         오늘 우울을 느낄수 있어요.
       </p>
       <button type="button" class="btn btn-danger mt-3" onclick="js:begin()">시작하기</button>
@@ -70,21 +70,23 @@
       <div class = "resultDesc">
 
       </div>
-      <button type="button" class="kakao mt-3 py-2 px-3">공유하기</button>
+      <button type="button" class="kakao mt-3">공유하기</button>
       <button type="button" class="btn btn-danger mt-3" onclick="history.back()">이전페이지</button>
       <button type="button" class="btn btn-danger mt-3" onclick="js:goResult2()">다음페이지</button>
     </section>
     <section id="result2">
+      <h1>세부 결과</h1>
+      <br>
       <div class="table-container">
         <table>
 
         </table>
       </div>
-      <div class="score" class="mx-auto">
-         <h2>결과 그래프</h2>
+      <!--<div class="score" class="mx-auto">
+         <h2>결과 그래프</h2>-->
         <!-- 그래프를 그릴 캔버스 -->
-        <canvas id="resultChart" style="height:30vh; width: 60vw"></canvas>
-      </div>
+        <!--<canvas id="resultChart" style="height:30vh; width: 60vw"></canvas>
+      </div>-->
       <div class="explain my-3 px-3">
       </div>
       <button type="button" class="btn btn-danger mt-3" onclick="history.back()">이전페이지</button>
