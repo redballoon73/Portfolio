@@ -5,7 +5,7 @@ const result = document.querySelector("#result");
 const result2 = document.querySelector("#result2");
 const result3 = document.querySelector("#result3");
 //***중요 꼭 바꿔야 됨***전체 질문 개수 = 19개
-const endPoint = 19;
+const endPoint = 6;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
@@ -13,6 +13,11 @@ const selectedGAD = [];
 const selectedRSES = [];
 // 그룹화된 결과를 저장할 변수
 let Depression = '';
+
+//랜덤 숫자 형성
+function RanNum(fin_num,start_num){
+  return Math.floor(Math.random()*(fin_num-start_num)+1)
+}
 
 //우울과 불안 증상중 가장 심한 증상 표현, 그런데, 우울과 불안을 따로 대상화해야 됨.
 //이 블럭의 목적 : 배열중 최대값 찾아서 인덱스 표현하는 것.
@@ -129,10 +134,10 @@ function classifyData(conclusionPHQ, conclusionRSES) {
 //결과 창에 이미지와 설명글 넣기
 function setResult(){
 
-  let point = Depression //여기 1 부분에 이미지를 결정할 인자를 넣어야 함. calResult()
+  let point = Depression
   const resultName = document.querySelector('.resultname');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
-  resultName.innerHTML = infoListDepression[Depression] + ' ' + infoListSelfesteem[Classified[1]];
+  resultName.innerHTML = `<h2><strong>${infoListDepression[Depression]} ${infoListSelfesteem[Classified[1]]}</strong></h2>`;
 
   //이미지 삽입하기
   var resultImg = document.createElement('img');
@@ -146,11 +151,16 @@ function setResult(){
   //설명글 삽입하기
   const resultDesc = document.querySelector('.resultDesc');
 
-  //resultDesc.innerHTML = infoList[point].desc; //이 코드는 infoList에 있는 설명글 쓸 때 사용
   resultDesc.innerHTML = `
-  <p>${Tip[0][Classified[0]]}</p>
-  <p>${Tip[1][Classified[1]]}</p>
+    <h3>${Describe[1][Classified[1]]}${Describe[0][Depression]}<h3>
   `;
+
+  const resultDesc2 = document.querySelector('.resultDesc2');
+
+  resultDesc2.innerHTML = `
+    <p>${Tip[RanNum(3,0)]}</p>
+  `
+
 }
 
 //이 블럭의 목표 : 설문 끝내고 결과 페이지 넘어가기
@@ -306,7 +316,98 @@ function drawResultTable(){
   createTable(tableData1, 'table-container-1');
   createTable(tableData2, 'table-container-2');
 }
-/*
+
+
+//결과 두번째 페이지 값 입력
+function setResult2(){
+  const Explain = document.querySelector('.explain');
+  //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
+  Explain.innerHTML = `
+  <h3>당신의 <strong>우울 점수는 ${conclusionPHQ}점</strong>입니다.<h3>
+  <p>${infoListExplain[0][window.Classified[0]]}</p>
+  <br>
+  <h3>당신의 <strong>자존감 점수는 ${conclusionRSES+10}점</strong>입니다.
+  <p>${infoListExplain[1][window.Classified[1]]}</p>
+  <br>
+  <h2>${maxim[0][RanNum(maxim[0].length-1,0)]}</h2>
+  <h2>${maxim[1][RanNum(maxim[1].length-1,0)]}</h2>
+  <br>
+  `;
+}
+
+function goBacktoResult(){
+  result2.style.WebkitAnimation = "fadeOut 1s";
+  result2.style.animation = "fadeOut 1s";
+  setTimeout(() => {
+    result.style.WebkitAnimation = "fadeIn 1s";
+    result.style.animation = "fadeIn 1s";
+    setTimeout(() => {
+      result2.style.display = "none";
+      result.style.display = "block"
+    },450)})
+    setResult3();
+}
+
+//-----------------------3페이지----------------------------//
+function goResult3(){
+  result2.style.WebkitAnimation = "fadeOut 1s";
+  result2.style.animation = "fadeOut 1s";
+  setTimeout(() => {
+    result3.style.WebkitAnimation = "fadeIn 1s";
+    result3.style.animation = "fadeIn 1s";
+    setTimeout(() => {
+      result2.style.display = "none";
+      result3.style.display = "block"
+    },450)})
+    setResult3();
+}
+
+//결과 세번째 페이지 값 입력
+function setResult3(){
+  for (let i = 0; i < 6; i++) {
+    const imgDiv = document.querySelector('#resultImg' + i);
+
+    // imgDiv가 null이 아닌지 확인
+    if (imgDiv) {
+      var resultImg = document.createElement('img');
+      var imgURL = 'img/우울증 오해-' + i + '.jpg';
+      resultImg.src = imgURL;
+      resultImg.alt = i;
+      resultImg.classList.add('img-fluid');
+      imgDiv.appendChild(resultImg);
+    } else {
+      console.error(`Element with id 'resultImg${i}' not found.`);
+    }
+  }
+
+  }
+
+function goBacktoResult2(){
+  result3.style.WebkitAnimation = "fadeOut 1s";
+  result3.style.animation = "fadeOut 1s";
+  setTimeout(() => {
+    result2.style.WebkitAnimation = "fadeIn 1s";
+    result2.style.animation = "fadeIn 1s";
+    setTimeout(() => {
+      result3.style.display = "none";
+      result2.style.display = "block"
+    },450)})
+    setResult3();
+}
+
+/*  const Explain2 = document.querySelector('.explain2');
+  //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
+  Explain2.innerHTML = `
+  <p>대한민국의 자살율이 OECD 1위인 이유는 우울증을 마치 개인의 문제라고 생각하는 사회적 분위기 때문입니다.</p>
+  <p>한국에서는 통계적으로 매일 32명의 사람이 자살로 죽습니다.<br>여러분 주변의 사람에게 "우울은 너의 잘못이 아니야"라고 말해주세요.</p>
+  <p>우울과 불안은 누구나 느낄 수 있습니다.<br>우울증은 마음의 감기와 같습니다.</p>
+  <p>우울증이 오는 이유는 멘탈이 약해서가 아니라,<br>뇌에서 우울과 관련된 호르몬이 많이 나와서입니다.</p>
+  <p>우울증은 약물 치료를 통해서 80% 이상이 치유가 됩니다.<br>하지만, 스스로 우울증을 해결하는 것은 불가능한 경우도 있고, 더 심해지는 경우가 많습니다.</p>
+  <p>우울증 약이 부작용이 있거나 중독성이 있다는,<br>정신과에 내원하면 진료 기록이 남는다는 오해가 있는데,<br>모두 거짓입니다.</p>
+  <p>아래 링크들을 통해서 온라인 심리상담을 받아볼 수 있어요!<p>
+  `;*/
+
+  /*
 // 결과 그래프를 그리는 함수
 function drawResultGraph() {
 
@@ -348,53 +449,3 @@ function drawResultGraph() {
 
 }
 */
-//랜덤 숫자 형성
-function RanNum(fin_num,start_num){
-  return Math.floor(Math.random()*(fin_num-start_num)+1)
-}
-
-
-//결과 두번째 페이지 값 입력
-function setResult2(){
-  const Explain = document.querySelector('.explain');
-  //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
-  Explain.innerHTML = `
-  <p>당신의 우울 점수는 ${conclusionPHQ}점입니다.<br>${infoListExplain[0][window.Classified[0]]}</p>
-  <p>당신의 자존감 점수는 ${conclusionRSES+10}점입니다.<br>${infoListExplain[1][window.Classified[1]]}</p>
-  <br>
-  <h2>${maxim[0][RanNum(maxim[0].length-1,0)]}</h2>
-  <h2>${maxim[1][RanNum(maxim[1].length-1,0)]}</h2>
-  <br>
-  `;
-}
-
-//-----------------------3페이지----------------------------//
-function goResult3(){
-  result2.style.WebkitAnimation = "fadeOut 1s";
-  result2.style.animation = "fadeOut 1s";
-  setTimeout(() => {
-    result3.style.WebkitAnimation = "fadeIn 1s";
-    result3.style.animation = "fadeIn 1s";
-    setTimeout(() => {
-      result2.style.display = "none";
-      result3.style.display = "block"
-    },450)})
-    setResult3();
-}
-
-//결과 세번째 페이지 값 입력
-function setResult3(){
-  const Explain2 = document.querySelector('.explain2');
-  //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
-  Explain2.innerHTML = `
-  <h1>알고 계셨나요?</h1>
-  <br>
-  <p>대한민국의 자살율이 OECD 1위인 이유는 우울증을 마치 개인의 문제라고 생각하는 사회적 분위기 때문입니다.</p>
-  <p>한국에서는 통계적으로 매일 32명의 사람이 자살로 죽습니다.<br>여러분 주변의 사람에게 "우울은 너의 잘못이 아니야"라고 말해주세요.</p>
-  <p>우울과 불안은 누구나 느낄 수 있습니다.<br>우울증은 마음의 감기와 같습니다.</p>
-  <p>우울증이 오는 이유는 멘탈이 약해서가 아니라,<br>뇌에서 우울과 관련된 호르몬이 많이 나와서입니다.</p>
-  <p>우울증은 약물 치료를 통해서 80% 이상이 치유가 됩니다.<br>하지만, 스스로 우울증을 해결하는 것은 불가능한 경우도 있고, 더 심해지는 경우가 많습니다.</p>
-  <p>우울증 약이 부작용이 있거나 중독성이 있다는,<br>정신과에 내원하면 진료 기록이 남는다는 오해가 있는데,<br>모두 거짓입니다.</p>
-  <p>아래 링크들을 통해서 온라인 심리상담을 받아볼 수 있어요!<p>
-  `;
-}
