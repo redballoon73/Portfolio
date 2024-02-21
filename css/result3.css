@@ -1,0 +1,30 @@
+#result3{
+    display: none;
+    background-color: whitesmoke;
+    width: 80%;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.explain2{
+    font-size: 24px;
+}
+
+.table-container {
+    display: flex;
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+    margin-right: 10px; /* 각 표 사이의 간격 조절을 위해 추가 */
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
