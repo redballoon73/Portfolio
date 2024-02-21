@@ -4,8 +4,8 @@ const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const result2 = document.querySelector("#result2");
 const result3 = document.querySelector("#result3");
-//***중요 꼭 바꿔야 됨***전체 질문 개수
-const endPoint = 6;
+//***중요 꼭 바꿔야 됨***전체 질문 개수 = 19개
+const endPoint = 19;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
@@ -265,14 +265,21 @@ function goResult2(){
 function drawResultTable(){
   // 첫 번째 표 데이터 배열 정의
   const tableData1 = [
-    ['우울점수','0-4점','5-9점','10-19점','20-27점'],
-    ['분류','우울아님','가벼운 우울', '중간정도의 우울', '심한 우울']
+    ['우울점수','분류'],
+    ['0-4점', '우울아님'],
+    ['5-9점', '가벼운 우울'],
+    ['10-19점', '중간정도의 우울'],
+    ['20-27점', '심한 우울'],
   ];
 
   // 두 번째 표 데이터 배열 정의
   const tableData2 = [
-    ['자존감점수', '1-18점', '19-24점','25-38점','39-44점','45점 이상'],
-    ['분류', '매우 낮음', '낮음', '보통', '높음', '매우 높음']
+    ['자존감점수', '분류'],
+    ['1-18점', '매우 낮음'],
+    ['19-24점', '낮음'],
+    ['25-38점', '보통'],
+    ['39-44점', '높음'],
+    ['45점 이상', '매우 높음']
   ];
 
   // 표 생성 함수
