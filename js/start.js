@@ -15,8 +15,15 @@ const selectedRSES = [];
 let Depression = '';
 
 //랜덤 숫자 형성
-function RanNum(fin_num,start_num){
-  return Math.floor(Math.random()*(fin_num-start_num)+1)
+function getRandomNumbers(min, max, count) {
+  const randomNumbers = [];
+
+  for (let i = 0; i < count; i++) {
+      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      randomNumbers.push(randomNumber);
+  }
+
+  return randomNumbers;
 }
 
 //우울과 불안 증상중 가장 심한 증상 표현, 그런데, 우울과 불안을 따로 대상화해야 됨.
@@ -134,33 +141,63 @@ function classifyData(conclusionPHQ, conclusionRSES) {
 //결과 창에 이미지와 설명글 넣기
 function setResult(){
 
-  let point = Depression
+  let point1 = Classified[0]
+  let point2 = Classified[1]
   const resultName = document.querySelector('.resultname');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
-  resultName.innerHTML = `<h2><strong>${infoListDepression[Depression]} ${infoListSelfesteem[Classified[1]]}</strong></h2>`;
+  resultName.innerHTML = `<h2><strong>${infoListDepression[Classified[0]]} ${infoListSelfesteem[Classified[1]]}</strong></h2>`;
 
   //이미지 삽입하기
   var resultImg = document.createElement('img');
   const imgDiv = document.querySelector('#resultImg');
-  var imgURL = 'img/image-' + point + '.jfif'; 
+  var imgURL = 'img/image-' + point1 + point2 + '.jfif'; 
   resultImg.src = imgURL;
-  resultImg.alt = point;
+  resultImg.alt = point1;
   resultImg.classList.add('img-fluid');
   imgDiv.appendChild(resultImg);
 
-  //설명글 삽입하기
+  //한 줄설명글 삽입하기
   const resultDesc = document.querySelector('.resultDesc');
-
   resultDesc.innerHTML = `
-    <h3>${Describe[1][Classified[1]]}${Describe[0][Depression]}<h3>
+    <h3>${Describe[0][Classified[1]]}${Describe[1][Classified[0]]}<h3>
   `;
 
-  const resultDesc2 = document.querySelector('.resultDesc2');
+  //4줄 설명글 삽입하기
+  const resultDesc1 = document.querySelector('.resultDesc1');
+  function PHQCharacter() {
+      if (Classified[0] <= 1) {
+          return 0;
+      } else {
+          return 1;
+      }
+  }
 
-  resultDesc2.innerHTML = `
-    <p>${Tip[RanNum(3,0)]}</p>
+  function RSESCharacter() {
+      if (Classified[1] <= 1) {
+          return 0;
+      } else {
+          return 1;
+      }
+  }
+
+  let TextingPHQ = '';
+  for (let i = 0; i < 2; i++) {
+      TextingPHQ += Character[0][PHQCharacter()][getRandomNumbers(0, 4, 2)[i]] + '<br>';
+  }
+  
+  let TextingRSES = '';
+  for (let i = 0; i < 2; i++) {
+      TextingRSES += Character[1][RSESCharacter()][getRandomNumbers(0, 4, 2)[i]] + '<br>';
+  }
+  resultDesc1.innerHTML = `
+  <h3>${TextingPHQ}</h3>
+  <h3>${TextingRSES}</h3>
   `
-
+  // 팁 삽입하기
+  const resultDesc2 = document.querySelector('.resultDesc2');
+  resultDesc2.innerHTML = `
+    <p>${Tip[getRandomNumbers(0,3,1)]}</p>
+  `
 }
 
 //이 블럭의 목표 : 설문 끝내고 결과 페이지 넘어가기
@@ -268,6 +305,7 @@ function goResult2(){
       result2.style.display = "block"
     },450)})
     drawResultTable();
+    drawResultGraph();
     setResult2();
 }
 
@@ -329,8 +367,10 @@ function setResult2(){
   <h3>당신의 <strong>자존감 점수는 ${conclusionRSES+10}점</strong>입니다.
   <p>${infoListExplain[1][window.Classified[1]]}</p>
   <br>
-  <h2>${maxim[0][RanNum(maxim[0].length-1,0)]}</h2>
-  <h2>${maxim[1][RanNum(maxim[1].length-1,0)]}</h2>
+  <hr>
+  <br>
+  <h2>${maxim[0][getRandomNumbers(0,maxim[0].length-1,1)]}</h2>
+  <h2>${maxim[1][getRandomNumbers(0,maxim[1].length-1,1)]}</h2>
   <br>
   `;
 }
@@ -348,6 +388,47 @@ function goBacktoResult(){
     setResult3();
 }
 
+// 결과 그래프를 그리는 함수
+function drawResultGraph() {
+
+  // 그래프 데이터
+  var data = {
+    labels: ['우울 점수', '자존감 점수'],
+    datasets: [{
+      backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(255, 206, 86, 0.7)'],
+      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
+      borderWidth: 1,
+      data: [window.conclusionPHQ, window.conclusionRSES+10],
+    }]
+  };
+
+  // 그래프 옵션
+  var options = {
+    indexAxis: 'y',
+    responsive: false,
+    legend : {
+      display : false,
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        max : 50,
+        },
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  // 캔버스에 그래프 그리기
+  var ctx = document.getElementById('resultChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+  });
+
+}
 //-----------------------3페이지----------------------------//
 function goResult3(){
   result2.style.WebkitAnimation = "fadeOut 1s";
@@ -407,45 +488,6 @@ function goBacktoResult2(){
   <p>아래 링크들을 통해서 온라인 심리상담을 받아볼 수 있어요!<p>
   `;*/
 
-  /*
-// 결과 그래프를 그리는 함수
-function drawResultGraph() {
 
-  // 그래프 데이터
-  var data = {
-    labels: ['우울 점수', '자존감 점수'],
-    datasets: [{
-      backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(255, 206, 86, 0.7)'],
-      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
-      borderWidth: 1,
-      data: [window.conclusionPHQ, window.conclusionRSES],
-    }]
-  };
 
-  // 그래프 옵션
-  var options = {
-    indexAxis: 'y',
-    responsive: false,
-    legend : {
-      display : false,
-    },
-    scales: {
-      x: {
-        beginAtZero: true
-        },
-      y: {
-        beginAtZero: true
-      }
-    }
-  };
 
-  // 캔버스에 그래프 그리기
-  var ctx = document.getElementById('resultChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: data,
-    options: options
-  });
-
-}
-*/
