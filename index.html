@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://emotionselftest.netlify.app"/>
   <meta property="og:title" content="울BTI" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="img/share.png" /> <!--공유할떄 나오는 이미지. 우리 거로 바꾸기!-->
+  <meta property="og:image" content="img/share.jfif" /> <!--공유할떄 나오는 이미지. 우리 거로 바꾸기!-->
   <meta property="description" content="오늘 당신의 우울감과 자존감은 어떤가요?"/>
 
   <!--favicon-->
@@ -32,6 +32,34 @@
   <link rel="stylesheet" href="./css/result2.css">
   <link rel="stylesheet" href="./css/result3.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    hr {
+      width:30%;
+      height:10px;
+      border:none;
+      margin:auto;
+      background-image:
+        linear-gradient(
+          to right, 
+          #3498db,
+          #3498db 14%,
+          #eee 14%,
+          #eee 28%,
+          #e74c3c 28%,
+          #e74c3c 42%,
+          #eee 42%,
+          #eee 56%,
+          #f1c40f 56%,
+          #f1c40f 70%,
+          #eee 70%,
+          #eee 84%,
+          #2ecc71 84%,
+          #2ecc71 98%,
+          #eee 98%,
+          #eee 100%
+        );
+    }
+  </style>
 </head>
 
 <body>
@@ -39,7 +67,7 @@
     <section id="main" class="mx-auto my-5 py-5 px-3">
       <h1 class="pt-5">오늘 당신의 우울감과 자존감은 어떤가요?</h1>
       <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
-        <img src="./img/main.png" alt="mainImage" class="img-fluid">
+        <img src="./img/main.jfif" alt="mainImage" class="img-fluid">
       </div>
       <p>
         당신처럼 소중한 사람도, <br>
@@ -72,6 +100,14 @@
 
       </div>
       <br>
+      <hr>
+      <br>
+      <h2>당신의 특징은?</h2>
+      <div class = "resultDesc1">
+
+      </div>
+      <br>
+      <hr>
       <br>
       <h2>내가 우울한 것 같다면?</h2>
       <div class = "resultDesc2">
@@ -88,11 +124,15 @@
 
         </table>
       </div>
-      <!--<div class="score" class="mx-auto">
-         <h2>결과 그래프</h2>-->
+      <br>
+      <div class="score" class="mx-auto">
+         <h2>결과 그래프</h2>
         <!-- 그래프를 그릴 캔버스 -->
-        <!--<canvas id="resultChart" style="height:30vh; width: 60vw"></canvas>
-      </div>-->
+        <canvas id="resultChart" style="height:15vh; width: 60vw"></canvas>
+      </div>
+      <br>
+      <hr>
+      <br>
       <div class="explain my-3 px-3">
       </div>
       <button type="button" class="btn btn-danger mt-3" onclick="goBacktoResult()">이전페이지</button>
@@ -106,7 +146,8 @@
       <p>대인관계, 진로 등 다양한 심리검사를 할 수 있어요! <a href="https://www.cyber1388.kr:447/new_/counsel2_/CatExpl/CatExplDServ.asp?id=self_pT" target="_blank" rel="noopener noreferrer">청소년사이버상담센터</a>에서 한번 해보세요.</p>
       <p>서울시에서 제공하는 정신건강 서비스들을 <a href="https://blutouch.net/service/agency" target="_blank" rel="noopener noreferrer">블루터치</a>에서 확인하세요.</p>
       <p>내 얘기를 들어줄 사람이 필요한가요? 자살예방상담번호 <a onclick="document.location.href='tel:109'"><b>109</b></a>, 정신건강 상담전화 <a onclick="document.location.href='tel:1577-0199'"><b>1577-0199</b></a>, 청소년 상담전화 <a onclick="document.location.href='tel:1388'"><b>1388</b></a>에 전화해 보세요! </p>
-
+      <br>
+      <hr>
       <br>
       <h2>알고 계셨나요? 우울증에 관한 오해!</h2>
       <div id="resultImg0"class="my-3 col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
@@ -127,10 +168,16 @@
       <div id="resultImg5"class="my-3 col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
 
       </div>
-      <div class="explain2 my-3 px-3">
-
-      </div>
-
+      <br>
+      <hr>
+      <br>
+      <h3>아래 링크들을 통해 여러 도움을 받을 수 있어요!</h3>
+      <p>생각보다 주변에 심리상담 받을 수 있는 곳이 많다는 걸 아시나요? <a href="https://www.mentalhealth.go.kr/portal/health/fac/PotalHealthFacListTab2.do" target="_blank" rel="noopener noreferrer">국립정신건강센터</a>에서 주변을 직접 찾아보세요!</p>
+      <p>우울증 증상과 치료에 대해 더 알아봐요! <a href="https://www.nct.go.kr/distMental/rating/rating01_2_2.do" target="_blank" rel="noopener noreferrer">국가트라우마센터</a>에 자세히 나와 있어요.</p>
+      <p>대인관계, 진로 등 다양한 심리검사를 할 수 있어요! <a href="https://www.cyber1388.kr:447/new_/counsel2_/CatExpl/CatExplDServ.asp?id=self_pT" target="_blank" rel="noopener noreferrer">청소년사이버상담센터</a>에서 한번 해보세요.</p>
+      <p>서울시에서 제공하는 정신건강 서비스들을 <a href="https://blutouch.net/service/agency" target="_blank" rel="noopener noreferrer">블루터치</a>에서 확인하세요.</p>
+      <p>내 얘기를 들어줄 사람이 필요한가요? 자살예방상담번호 <a onclick="document.location.href='tel:109'"><b>109</b></a>, 정신건강 상담전화 <a onclick="document.location.href='tel:1577-0199'"><b>1577-0199</b></a>, 청소년 상담전화 <a onclick="document.location.href='tel:1388'"><b>1388</b></a>에 전화해 보세요! </p>
+      <br>
       <button type="button" class="btn btn-danger mt-3" onclick="js:goBacktoResult2()">이전페이지</button>
     </section>
     <script src="./js/data.js" charset="utf-8"></script>
