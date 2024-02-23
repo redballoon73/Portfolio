@@ -3,11 +3,13 @@
     background-color: whitesmoke;
     width: 90%;
     text-align: center;
+    word-break: keep-all;
     border-radius: 20px;
 }
 
 .explain{
     font-size: 18px;
+    word-break: keep-all;
 }
 
 #resultChart{
