@@ -156,7 +156,7 @@ function setResult(){
       imgDiv.removeChild(imgDiv.firstChild);
     }
   }
-  var imgURL = 'img/image-' + point1 + point2 + '.jfif'; 
+  var imgURL = 'img/image-' + point1 + point2 + '.jfif';
   resultImg.src = imgURL;
   resultImg.alt = point1;
   resultImg.classList.add('img-fluid');
@@ -297,26 +297,26 @@ function begin(){
   }, 450)
 }
 
-  // Kakao Link API 초기화
-Kakao.init('YOUR_KAKAO_APP_KEY');
+//   // Kakao Link API 초기화
+// Kakao.init('YOUR_KAKAO_APP_KEY');
 
-function shareOnKakao() {
-  // 웹페이지 공유 메시지 설정
-  Kakao.Link.sendDefault({
-    objectType: 'web',
-    templateId: YOUR_TEMPLATE_ID,
-    templateArgs: {
-      'title': '웹페이지 제목',
-      'description': '웹페이지 설명',
-      'url': 'https://example.com',
-      'image': {
-        'src': 'https://example.com/image.jpg',
-        'width': '640',
-        'height': '480'
-      }
-    }
-  });
-}
+// function shareOnKakao() {
+//   // 웹페이지 공유 메시지 설정
+//   Kakao.Link.sendDefault({
+//     objectType: 'web',
+//     templateId: YOUR_TEMPLATE_ID,
+//     templateArgs: {
+//       'title': '웹페이지 제목',
+//       'description': '웹페이지 설명',
+//       'url': 'https://example.com',
+//       'image': {
+//         'src': 'https://example.com/image.jpg',
+//         'width': '640',
+//         'height': '480'
+//       }
+//     }
+//   });
+// }
 
 
 //----------------------2페이지---------------------------------//
