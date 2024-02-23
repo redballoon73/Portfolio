@@ -5,7 +5,7 @@ const result = document.querySelector("#result");
 const result2 = document.querySelector("#result2");
 const result3 = document.querySelector("#result3");
 //***중요 꼭 바꿔야 됨***전체 질문 개수 = 19개
-const endPoint = 19;
+const endPoint = 2;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
@@ -147,9 +147,15 @@ function setResult(){
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
   resultName.innerHTML = `<h2><strong>${infoListDepression[Classified[0]]} ${infoListSelfesteem[Classified[1]]}</strong></h2>`;
 
-  //이미지 삽입하기
+
   var resultImg = document.createElement('img');
   const imgDiv = document.querySelector('#resultImg');
+  //이미지 삽입하기
+  if (imgDiv) {
+    while(imgDiv.firstChild) {
+      imgDiv.removeChild(imgDiv.firstChild);
+    }
+  }
   var imgURL = 'img/image-' + point1 + point2 + '.jfif'; 
   resultImg.src = imgURL;
   resultImg.alt = point1;
@@ -329,11 +335,13 @@ function drawResultTable(){
     ['39-44점', '높음'],
     ['45점 이상', '매우 높음']
   ];
+  
+  let parentTableContainer = document.body.querySelector('.table-container');
 
   // 표 생성 함수
   function createTable(Tabledata, containerId) {
-    const tableContainer = document.createElement('div');
-    tableContainer.className = 'table-container';
+    const childTableContainer = document.createElement('div');
+    childTableContainer.className = containerId;
 
     const table = document.createElement('table');
 
@@ -346,8 +354,13 @@ function drawResultTable(){
       }
     }
 
-    tableContainer.appendChild(table);
-    document.body.querySelector('.table-container').appendChild(tableContainer);
+    childTableContainer.appendChild(table);
+    parentTableContainer.child
+    parentTableContainer.appendChild(childTableContainer);
+  }
+
+  while(parentTableContainer.firstChild) {
+    parentTableContainer.removeChild(parentTableContainer.firstChild)
   }
 
   // 두 개의 표 생성 함수 호출
@@ -361,16 +374,16 @@ function setResult2(){
   const Explain = document.querySelector('.explain');
   //우울과 불안의 증상에 따른 친근한 이미지(우울 + 불안)
   Explain.innerHTML = `
-  <h3>당신의 <strong>우울 점수는 ${conclusionPHQ}점</strong>입니다.<h3>
-  <p>${infoListExplain[0][window.Classified[0]]}</p>
+  <h3 class = "text-center">당신의 <strong>우울 점수는 ${conclusionPHQ}점</strong>입니다.<h3>
+  <p class = "text-center">${infoListExplain[0][window.Classified[0]]}</p>
   <br>
-  <h3>당신의 <strong>자존감 점수는 ${conclusionRSES+10}점</strong>입니다.
-  <p>${infoListExplain[1][window.Classified[1]]}</p>
+  <h3 class = "text-center">당신의 <strong>자존감 점수는 ${conclusionRSES+10}점</strong>입니다.
+  <p class = "text-center">${infoListExplain[1][window.Classified[1]]}</p>
   <br>
   <hr>
   <br>
-  <h2>${maxim[0][getRandomNumbers(0,maxim[0].length-1,1)]}</h2>
-  <h2>${maxim[1][getRandomNumbers(0,maxim[1].length-1,1)]}</h2>
+  <h3>${maxim[0][getRandomNumbers(0,maxim[0].length-1,1)]}</h3>
+  <h3>${maxim[1][getRandomNumbers(0,maxim[1].length-1,1)]}</h3>
   <br>
   `;
 }
@@ -385,7 +398,7 @@ function goBacktoResult(){
       result2.style.display = "none";
       result.style.display = "block"
     },450)})
-    setResult3();
+    setResult();
 }
 
 // 결과 그래프를 그리는 함수
@@ -419,7 +432,7 @@ function drawResultGraph() {
       }
     }
   };
-
+  
   // 캔버스에 그래프 그리기
   var ctx = document.getElementById('resultChart').getContext('2d');
   var myChart = new Chart(ctx, {
@@ -450,6 +463,10 @@ function setResult3(){
 
     // imgDiv가 null이 아닌지 확인
     if (imgDiv) {
+      while(imgDiv.firstChild) {
+        imgDiv.removeChild(imgDiv.firstChild);
+      }
+
       var resultImg = document.createElement('img');
       var imgURL = 'img/우울증 오해-' + i + '.jpg';
       resultImg.src = imgURL;
