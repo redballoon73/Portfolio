@@ -59,6 +59,9 @@
           #eee 100%
         );
     }
+    ul {
+    list-style-type: disc;
+    }
   </style>
 </head>
 
@@ -102,7 +105,8 @@
       <br>
       <hr>
       <br>
-      <h2>당신의 특징은?</h2>
+      <h1>당신을 위한 메세지!</h1>
+      <br>
       <div class = "resultDesc1">
 
       </div>
@@ -113,7 +117,7 @@
       <div class = "resultDesc2">
         
       </div>
-      <button type="button" class="kakao mt-3">공유하기</button>
+      <!-- <button type="button" class="kakao mt-3" onclick="js:shareOnKakao()">공유하기</button> -->
       <button type="button" class="btn btn-danger mt-3" onclick="js:goResult2()">다음페이지</button>
     </section>
     <section id="result2" class="mx-auto my-5 py-5 px-3">
@@ -140,6 +144,7 @@
     </section>
 
     <section id="result3" class="mx-auto my-5 py-5 px-3">
+      <p font-size="2">카드뉴스 출처 : 서울시 자살 예방센터</p>
       <h3>아래 링크들을 통해 여러 도움을 받을 수 있어요!</h3>
       <p>생각보다 주변에 심리상담 받을 수 있는 곳이 많다는 걸 아시나요? <a href="https://www.mentalhealth.go.kr/portal/health/fac/PotalHealthFacListTab2.do" target="_blank" rel="noopener noreferrer">국립정신건강센터</a>에서 주변을 직접 찾아보세요!</p>
       <p>우울증 증상과 치료에 대해 더 알아봐요! <a href="https://www.nct.go.kr/distMental/rating/rating01_2_2.do" target="_blank" rel="noopener noreferrer">국가트라우마센터</a>에 자세히 나와 있어요.</p>
@@ -179,6 +184,7 @@
       <p>내 얘기를 들어줄 사람이 필요한가요? 자살예방상담번호 <a onclick="document.location.href='tel:109'"><b>109</b></a>, 정신건강 상담전화 <a onclick="document.location.href='tel:1577-0199'"><b>1577-0199</b></a>, 청소년 상담전화 <a onclick="document.location.href='tel:1388'"><b>1388</b></a>에 전화해 보세요! </p>
       <br>
       <button type="button" class="btn btn-danger mt-3" onclick="js:goBacktoResult2()">이전페이지</button>
+      <button type="button" class="btn btn-danger mt-3" onclick='window.open("https://docs.google.com/forms/d/e/1FAIpQLScgJqhYm2tb5dD5ZN4QG4SohAyA--JUR8yZXz-OpA3lmyhSEQ/viewform?usp=sf_link", "_blank")' >다음페이지</button>
     </section>
     <script src="./js/data.js" charset="utf-8"></script>
     <script src="./js/start.js" charset="utf-8"></script>
