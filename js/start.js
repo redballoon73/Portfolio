@@ -188,7 +188,7 @@ function setResult(){
 
   let TextingPHQ = '';
   for (let i = 0; i < 2; i++) {
-      TextingPHQ += Character[0][PHQCharacter()][getRandomNumbers(0, 4, 2)[i]] + '<br>';
+      TextingPHQ += Character[0][PHQCharacter()][getRandomNumbers(0, 3, 2)[i]] + '<br>';
   }
   
   let TextingRSES = '';
@@ -295,6 +295,27 @@ function begin(){
     let qIdx = 0;
     goNext(qIdx);
   }, 450)
+}
+
+  // Kakao Link API 초기화
+Kakao.init('YOUR_KAKAO_APP_KEY');
+
+function shareOnKakao() {
+  // 웹페이지 공유 메시지 설정
+  Kakao.Link.sendDefault({
+    objectType: 'web',
+    templateId: YOUR_TEMPLATE_ID,
+    templateArgs: {
+      'title': '웹페이지 제목',
+      'description': '웹페이지 설명',
+      'url': 'https://example.com',
+      'image': {
+        'src': 'https://example.com/image.jpg',
+        'width': '640',
+        'height': '480'
+      }
+    }
+  });
 }
 
 
