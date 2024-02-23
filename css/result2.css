@@ -28,8 +28,27 @@
     line-height: 1.5;
     border: 1px solid #ccc;
     margin: auto;
-    font-size: 16px;
+    font-size: 13px;
   }
+
+.table-container-1 {
+border-collapse: collapse;
+text-align: left;
+line-height: 1.5;
+border: 1px solid #ccc;
+margin: auto;
+font-size: 13px;
+}
+
+.table-container-2 {
+border-collapse: collapse;
+text-align: left;
+line-height: 1.5;
+border: 1px solid #ccc;
+margin: auto;
+font-size: 13px;
+}
+
 table {
 border-right: 1px solid #ccc;
 border-left: 1px solid #ccc;
