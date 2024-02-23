@@ -5,7 +5,7 @@ const result = document.querySelector("#result");
 const result2 = document.querySelector("#result2");
 const result3 = document.querySelector("#result3");
 //***중요 꼭 바꿔야 됨***전체 질문 개수 = 19개
-const endPoint = 2;
+const endPoint = 19;
 const select = [];
 //qnaList 중에서 phq, gad, rses의 값을 각각 따로 빼내는 코드 짜기
 const selectedPHQ = [];
