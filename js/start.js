@@ -165,7 +165,7 @@ function setResult(){
   //한 줄설명글 삽입하기
   const resultDesc = document.querySelector('.resultDesc');
   resultDesc.innerHTML = `
-    <h3>${Describe[0][Classified[1]]}${Describe[1][Classified[0]]}<h3>
+    <h3>${Describe[0][Classified[0]]}${Describe[1][Classified[1]]}<h3>
   `;
 
   //4줄 설명글 삽입하기
